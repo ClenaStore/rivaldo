@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SIM Contabilidade – Home</title>
+<style>
+:root{
+  --blue:#103a6f; --blue2:#0e2b50; --gold:#f3c63a; --bg:#f7fafc; --text:#0f172a;
+  --muted:#64748b; --card:#fff; --line:#e5e7eb; --accent:#2563eb; --ok:#22c55e;
+  --shadow:0 10px 30px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box} html,body{margin:0}
+body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+
+/* ===== HEADER ===== */
+.header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,var(--blue),var(--blue2));color:#fff;box-shadow:var(--shadow)}
+.header .bar{max-width:1200px;margin:0 auto;display:flex;gap:18px;align-items:center;padding:14px 20px}
+.logo img{width:40px;height:40px;border-radius:8px;object-fit:contain}
+.nav{display:flex;gap:14px;flex:1;flex-wrap:wrap}
+.nav a{padding:8px 10px;border-radius:10px;color:#e6eefb}
+.nav a.active{background:rgba(255,255,255,.18);color:#fff;font-weight:700}
+.login-btn{background:linear-gradient(180deg,#ffd84d,#f0c000);color:#111;font-weight:700;border:none;border-radius:12px;padding:10px 16px;cursor:pointer;box-shadow:0 3px 0 #b69100}
+
+/* ===== HERO (FULL WIDTH) ===== */
+.hero{position:relative;width:100%;height:66vh;min-height:360px;overflow:hidden;background:#0c2346}
+.hero .slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .9s ease}
+.hero .slide.active{opacity:1}
+.hero .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.55))}
+.hero .caption{position:relative;z-index:2;color:#fff;text-align:center;padding:0 20px;top:50%;transform:translateY(-50%)}
+.hero h1{font-size:clamp(28px,5vw,54px);margin:0 0 10px}
+.hero p{margin:0;opacity:.95}
+.hero .ctrl{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);border:none;padding:12px;border-radius:12px;cursor:pointer;z-index:3}
+.hero .prev{left:14px} .hero .next{right:14px}
+.hero .dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:3}
+.hero .dot{width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.9);cursor:pointer}
+.hero .dot.active{background:#fff}
+
+/* ===== FAIXA DE BANNERS SECUNDÁRIOS ===== */
+.banner-row{max-width:1200px;margin:18px auto 0;padding:0 20px;display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:980px){ .banner-row{grid-template-columns:420px 1fr} } /* coluna esquerda fixinha */
+
+.banner-cert{
+  position:relative;height:74vh;min-height:440px;border-radius:20px;overflow:hidden;
+  background:linear-gradient(135deg,#0e2b50 0%, #103a6f 45%, #1e3a8a 100%);color:#fff;
+  box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:space-between
+}
+.banner-cert::after{content:"";position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1554224154-22dec7ec8818?q=80&w=1400&auto=format&fit=crop') center/cover;opacity:.20;mix-blend:screen}
+.banner-cert .inner{position:relative;z-index:2;padding:22px}
+.banner-cert h2{margin:6px 0 8px;font-size:clamp(22px,3.2vw,32px)}
+.banner-cert p{margin:0 0 10px;color:#e8eefc}
+.badges{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
+.badge{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);padding:6px 10px;border-radius:999px;font-weight:600}
+.cta{display:flex;gap:10px;align-items:center;margin-top:12px}
+.price{background:var(--gold);color:#111;font-weight:900;padding:10px 12px;border-radius:10px}
+.btn{background:var(--ok);border:none;color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer}
+.ribbon-bar{position:relative;z-index:2;display:flex;gap:8px;flex-wrap:wrap;padding:0 22px 10px}
+.ribbon{background:var(--gold);color:#111;font-weight:800;padding:6px 10px;border-radius:8px}
+.stamp{position:relative;z-index:2;margin:0 22px 18px;background:rgba(255,255,255,.14);border:2px dashed rgba(255,255,255,.5);padding:8px 12px;border-radius:10px;font-weight:700}
+
+/* espaço à direita (para manter igual ao print; você pode preencher depois) */
+.banner-space{border:2px dashed #e5e7eb;border-radius:18px;min-height:320px;background:#fff;display:grid;place-items:center;color:#64748b}
+
+/* ===== CARDS ===== */
+.section{max-width:1200px;margin:28px auto;padding:0 20px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+.card{grid-column:span 12;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:18px}
+@media(min-width:900px){.span-4{grid-column:span 4}}
+.card h3{margin:4px 0 8px}
+.card p{color:var(--muted)}
+.btn-link{display:inline-block;margin-top:8px;padding:10px 14px;background:var(--accent);color:#fff;border-radius:10px}
+
+/* ===== MODAIS / TOAST / WHATS ===== */
+.modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.45);backdrop-filter:blur(2px);z-index:80}
+.modal.open{display:grid}
+.modal .box{width:min(520px,94vw);background:#fff;border-radius:14px;padding:20px;border:1px solid var(--line);box-shadow:var(--shadow)}
+.input{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;margin-bottom:10px}
+.row{display:grid;gap:10px;grid-template-columns:1fr}
+@media(min-width:680px){.row{grid-template-columns:1fr 1fr}}
+.actions{display:flex;gap:10px;justify-content:flex-end}
+.toast{position:fixed;bottom:18px;right:18px;background:#111;color:#fff;padding:12px 14px;border-radius:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);transition:.25s;z-index:90}
+.toast.show{opacity:1;transform:translateY(0)}
+.whats{position:fixed;right:18px;bottom:90px;background:#25d366;color:#fff;border:none;border-radius:999px;padding:14px 16px;font-weight:800;box-shadow:var(--shadow);cursor:pointer;z-index:85}
+
+/* FOOTER */
+.footer{margin:40px 0 0;background:#0e223f;color:#e6eefb}
+.footer .inner{max-width:1100px;margin:0 auto;padding:24px 20px}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="bar">
+    <a class="logo" href="index.html"><img src="https://github.com/ClenaStore/santsert/blob/main/paste/Imagem%20do%20WhatsApp%20de%202025-08-20%20%C3%A0(s)%2016.21.40_26238e6c.jpg?raw=true" alt="Logo"></a>
+    <nav class="nav">
+      <a class="active" href="index.html">Home</a>
+      <a href="empresa.html">Empresa</a>
+      <a href="servicos.html">Serviços</a>
+      <a href="#certificados">Certificados</a>
+      <a href="informacoes.html">Informações</a>
+      <a href="contatos.html">Contato</a>
+    </nav>
+    <button class="login-btn" onclick="Login.open()">Área do Cliente</button>
+  </div>
+</header>
+
+<!-- ===== HERO PRINCIPAL FULL WIDTH ===== -->
+<section class="hero" id="hero">
+  <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?q=80&w=1800&auto=format&fit=crop')"></div>
+  <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1523289333742-be1143f6b766?q=80&w=1800&auto=format&fit=crop')"></div>
+  <div class="overlay"></div>
+  <div class="caption">
+    <h1>Assessoria contábil completa</h1>
+    <p>Abertura/encerramento de empresas • Fiscal • Trabalhista • Consultoria</p>
+    <div style="margin-top:14px;display:flex;gap:10px;justify-content:center">
+      <a href="servicos.html" class="btn" style="background:#0ea5e9">Conhecer serviços</a>
+      <a href="#certificados" class="btn">Emitir certificado</a>
+    </div>
+  </div>
+  <button class="ctrl prev" onclick="Hero.prev()">❮</button>
+  <button class="ctrl next" onclick="Hero.next()">❯</button>
+  <div class="dots" id="hero-dots"></div>
+</section>
+
+<!-- ===== LINHA DOS BANNERS (como no print) ===== -->
+<section class="banner-row">
+  <!-- Banner vertical à ESQUERDA -->
+  <aside class="banner-cert" id="certificados" aria-label="Certificado Digital">
+    <div class="ribbon-bar"><span class="ribbon">PROMO</span><span class="ribbon">12x sem juros*</span></div>
+    <div class="inner">
+      <h2>Certificado Digital<br>com liberação imediata</h2>
+      <p>Emita seu <strong>A1</strong> (arquivo) ou <strong>A3</strong> (cartão/token) com suporte especializado SIM Contabilidade.</p>
+      <div class="badges">
+        <span class="badge">✔️ 12 a 36 meses</span>
+        <span class="badge">⚡ Emissão rápida</span>
+        <span class="badge">🔒 ICP-Brasil</span>
+        <span class="badge">👨‍💼 PF e PJ</span>
+      </div>
+      <div class="cta">
+        <span class="price">a partir de R$ 149</span>
+        <button class="btn" onclick="CertModal.open()">Emitir agora</button>
+        <button class="btn" style="background:#0ea5e9" onclick="window.open('https://wa.me/5599999999999','_blank')">Tirar dúvidas</button>
+      </div>
+    </div>
+    <div class="stamp">Atendimento online e presencial</div>
+  </aside>
+
+  <!-- Espaço/branco à DIREITA (igual ao print; pode virar cards/anúncio depois) -->
+  <div class="banner-space">
+    <small>Área livre para outro banner, vídeo ou cards</small>
+  </div>
+</section>
+
+<!-- ===== CARDS ===== -->
+<section class="section">
+  <div class="grid">
+    <article class="card span-4">
+      <h3>Contabilidade Gerencial</h3>
+      <p>Indicadores, DRE e dashboards para decisões.</p>
+      <a class="btn-link" href="servicos.html#gerencial">Saiba mais</a>
+    </article>
+    <article class="card span-4">
+      <h3>Planejamento Tributário</h3>
+      <p>Regime ideal, reenquadramento e revisão fiscal.</p>
+      <a class="btn-link" href="servicos.html#fiscal">Ver detalhes</a>
+    </article>
+    <article class="card span-4">
+      <h3>Departamento Pessoal</h3>
+      <p>Folha, admissões, rescisões e eSocial.</p>
+      <a class="btn-link" href="servicos.html#dp">Conhecer</a>
+    </article>
+  </div>
+</section>
+
+<footer class="footer"><div class="inner"><small>© <span id="year"></span> SIM Contabilidade</small></div></footer>
+
+<!-- ===== MODAIS ===== -->
+<div id="login-modal" class="modal" aria-hidden="true">
+  <div class="box" role="dialog" aria-modal="true" aria-label="Login">
+    <h2>Área do Cliente</h2>
+    <form onsubmit="Login.submit(event)">
+      <input class="input" id="login" placeholder="Login" required>
+      <input class="input" id="senha" type="password" placeholder="Senha" required>
+      <div class="actions">
+        <button type="button" class="btn" style="background:#fff;border:1px solid var(--line);color:#111" onclick="Login.close()">Cancelar</button>
+        <button class="btn" type="submit">Entrar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="cert-modal" class="modal" aria-hidden="true">
+  <div class="box" role="dialog" aria-modal="true" aria-label="Emitir Certificado">
+    <h2>Emitir Certificado Digital</h2>
+    <form id="cert-form" onsubmit="CertModal.submit(event)">
+      <div class="row">
+        <div>
+          <label for="tipo">Tipo</label>
+          <select id="tipo" class="input" required>
+            <option value="">Selecione…</option>
+            <option value="A1">A1 (arquivo)</option>
+            <option value="A3">A3 (cartão/token)</option>
+          </select>
+        </div>
+        <div>
+          <label for="pessoa">Pessoa</label>
+          <select id="pessoa" class="input" required>
+            <option value="">Selecione…</option>
+            <option value="PF">Física (CPF)</option>
+            <option value="PJ">Jurídica (CNPJ)</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="doc">CPF/CNPJ</label>
+          <input id="doc" class="input" placeholder="Somente números" inputmode="numeric" maxlength="14" required>
+        </div>
+        <div>
+          <label for="validade">Validade</label>
+          <select id="validade" class="input" required>
+            <option value="">Selecione…</option>
+            <option value="12">12 meses</option>
+            <option value="24">24 meses</option>
+            <option value="36">36 meses</option>
+          </select>
+        </div>
+      </div>
+      <label for="nome">Nome/Razão Social</label>
+      <input id="nome" class="input" required>
+      <div class="row">
+        <div>
+          <label for="email">E-mail</label>
+          <input id="email" type="email" class="input" required>
+        </div>
+        <div>
+          <label for="fone">Telefone (WhatsApp)</label>
+          <input id="fone" class="input" placeholder="(00) 00000-0000" required>
+        </div>
+      </div>
+      <label for="anexo">Documento (RG/Contrato Social) — opcional</label>
+      <input id="anexo" class="input" type="file" accept=".pdf,.jpg,.jpeg,.png">
+      <div class="actions">
+        <button type="button" class="btn" style="background:#fff;border:1px solid var(--line);color:#111" onclick="CertModal.close()">Cancelar</button>
+        <button class="btn" type="submit">Solicitar Emissão</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<button class="whats" onclick="window.open('https://wa.me/5599999999999','_blank')">WhatsApp</button>
+
+<script>
+/* ===== Helpers ===== */
+function toast(msg, ok=true){
+  const el=document.getElementById('toast');
+  el.textContent=msg;
+  el.style.background= ok ? '#111' : '#b91c1c';
+  el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),3200);
+}
+
+/* ===== Modais ===== */
+const Login={
+  open(){document.getElementById('login-modal').classList.add('open')},
+  close(){document.getElementById('login-modal').classList.remove('open')},
+  submit(e){e.preventDefault(); toast('Login enviado (exemplo)'); Login.close();}
+};
+const CertModal={
+  open(){document.getElementById('cert-modal').classList.add('open')},
+  close(){document.getElementById('cert-modal').classList.remove('open')},
+  async submit(e){
+    e.preventDefault();
+    const doc=(document.getElementById('doc').value||'').replace(/\D/g,'');
+    if(!/^\d{11}$|^\d{14}$/.test(doc)){ toast('Informe CPF (11) ou CNPJ (14).',false); return; }
+    toast('Solicitação enviada! 👌'); CertModal.close(); document.getElementById('cert-form').reset();
+  }
+};
+
+/* ===== Slider do HERO ===== */
+const Hero=(()=>{
+  const root=document.getElementById('hero');
+  const slides=[...root.querySelectorAll('.slide')];
+  const dotsEl=document.getElementById('hero-dots');
+  let idx=0,timer=null,hold=false;
+
+  function buildDots(){
+    dotsEl.innerHTML='';
+    slides.forEach((_,i)=>{
+      const d=document.createElement('div');
+      d.className='dot'+(i===idx?' active':'');
+      d.onclick=()=>go(i);
+      dotsEl.appendChild(d);
+    });
+  }
+  function go(i){
+    idx=(i+slides.length)%slides.length;
+    slides.forEach((s,k)=>s.classList.toggle('active',k===idx));
+    [...dotsEl.children].forEach((d,k)=>d.classList.toggle('active',k===idx));
+  }
+  function next(){go(idx+1)} function prev(){go(idx-1)}
+  function autoplay(){clearInterval(timer); timer=setInterval(()=>{ if(!hold) next(); }, 5000);}
+
+  root.addEventListener('mouseenter',()=>hold=true);
+  root.addEventListener('mouseleave',()=>hold=false);
+  buildDots(); go(0); autoplay();
+
+  return {next,prev};
+})();
+
+/* ===== Init ===== */
+document.getElementById('year').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>

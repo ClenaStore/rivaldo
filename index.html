@@ -7,40 +7,67 @@
 <style>
 :root{
   --blue:#103a6f; --blue2:#0e2b50; --gold:#f3c63a; --bg:#f7fafc; --text:#0f172a;
-  --muted:#64748b; --card:#fff; --line:#e5e7eb; --accent:#2563eb; --ok:#22c55e;
+  --muted:#64748b; --card:#fff; --line:#e5e7eb; --accent:#2563eb; --ok:#22c55e; --danger:#ef4444;
   --shadow:0 10px 30px rgba(0,0,0,.08);
 }
-*{box-sizing:border-box} html,body{margin:0}
+*{box-sizing:border-box}
+html,body{margin:0}
 body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
 a{text-decoration:none;color:inherit}
 img{max-width:100%;display:block}
+button{cursor:pointer}
+
+/* ===== MICROINTERAÇÕES GLOBAIS ===== */
+:root{ --press: .985 }
+.btn, .login-btn, .btn-link, .cat-btn, .ripple{
+  position:relative; overflow:hidden; isolation:isolate;
+}
+.ripple::after{
+  content:""; position:absolute; inset:auto; width:10px; height:10px; border-radius:999px; transform:translate(-50%,-50%) scale(1);
+  background:rgba(255,255,255,.4); opacity:0; pointer-events:none; transition:opacity .4s, transform .5s;
+}
+.ripple:active{ transform:scale(var(--press)) }
 
 /* ===== HEADER ===== */
-.header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,var(--blue),var(--blue2));color:#fff;box-shadow:var(--shadow)}
+.header{position:sticky;top:0;z-index:60;background:linear-gradient(180deg,var(--blue),var(--blue2));color:#fff;box-shadow:var(--shadow);backdrop-filter:saturate(1.1)}
 .header .bar{max-width:1200px;margin:0 auto;display:flex;gap:18px;align-items:center;padding:14px 20px}
 .logo img{width:40px;height:40px;border-radius:8px;object-fit:contain}
-.nav{display:flex;gap:14px;flex:1;flex-wrap:wrap}
-.nav a{padding:8px 10px;border-radius:10px;color:#e6eefb}
-.nav a.active{background:rgba(255,255,255,.18);color:#fff;font-weight:700}
-.login-btn{background:linear-gradient(180deg,#ffd84d,#f0c000);color:#111;font-weight:700;border:none;border-radius:12px;padding:10px 16px;cursor:pointer;box-shadow:0 3px 0 #b69100}
+.nav{display:flex;gap:8px;flex:1;flex-wrap:wrap}
+.nav a{padding:8px 12px;border-radius:12px;color:#e6eefb;transition:transform .15s, background .25s, color .25s}
+.nav a:hover{background:rgba(255,255,255,.16); color:#fff}
+.nav a.active{background:rgba(255,255,255,.22);color:#fff;font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.login-btn{background:linear-gradient(180deg,#ffd84d,#f0c000);color:#111;font-weight:700;border:none;border-radius:12px;padding:10px 16px;box-shadow:0 3px 0 #b69100}
+.login-btn:hover{filter:brightness(1.02)}
 
 /* ===== HERO (FULL WIDTH) ===== */
 .hero{position:relative;width:100%;height:66vh;min-height:360px;overflow:hidden;background:#0c2346}
 .hero .slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .9s ease}
 .hero .slide.active{opacity:1}
-.hero .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.55))}
+.hero .overlay{position:absolute;inset:0;background:radial-gradient(1200px 400px at 50% 0%,rgba(255,255,255,.08),transparent 60%),linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.55))}
 .hero .caption{position:relative;z-index:2;color:#fff;text-align:center;padding:0 20px;top:50%;transform:translateY(-50%)}
-.hero h1{font-size:clamp(28px,5vw,54px);margin:0 0 10px}
+.hero h1{font-size:clamp(28px,5vw,54px);margin:0 0 10px;letter-spacing:.2px}
 .hero p{margin:0;opacity:.95}
-.hero .ctrl{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);border:none;padding:12px;border-radius:12px;cursor:pointer;z-index:3}
+.hero .ctrl{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);border:none;padding:12px;border-radius:12px;z-index:3}
 .hero .prev{left:14px} .hero .next{right:14px}
 .hero .dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:3}
 .hero .dot{width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.9);cursor:pointer}
 .hero .dot.active{background:#fff}
+.hero-ctas{margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn{background:var(--ok);border:none;color:#fff;padding:10px 14px;border-radius:12px;transition:transform .15s, filter .25s}
+.btn:hover{filter:brightness(1.02)}
+.btn.secondary{background:#0ea5e9}
+.btn.outline{background:#fff;color:#111;border:1px solid var(--line)}
+
+/* ===== BARRA DE CATEGORIAS (com efeitos de clique) ===== */
+.categorias{max-width:1200px;margin:18px auto 0;padding:0 20px}
+.cat-wrap{display:flex;gap:10px;flex-wrap:wrap}
+.cat-btn{--bg:#e9eff6; --fg:#0f172a; background:var(--bg); color:var(--fg); border:1px solid #d9e2ef; padding:10px 14px; border-radius:999px; font-weight:700; letter-spacing:.2px; transition:all .18s ease}
+.cat-btn:hover{transform:translateY(-1px)}
+.cat-btn.active{--bg:#0ea5e9; --fg:#fff; border-color:#0ea5e9; box-shadow:0 6px 20px rgba(14,165,233,.35)}
 
 /* ===== FAIXA DE BANNERS SECUNDÁRIOS ===== */
 .banner-row{max-width:1200px;margin:18px auto 0;padding:0 20px;display:grid;grid-template-columns:1fr;gap:18px}
-@media(min-width:980px){ .banner-row{grid-template-columns:420px 1fr} } /* coluna esquerda fixinha */
+@media(min-width:980px){ .banner-row{grid-template-columns:420px 1fr} }
 
 .banner-cert{
   position:relative;height:74vh;min-height:440px;border-radius:20px;overflow:hidden;
@@ -53,56 +80,72 @@ img{max-width:100%;display:block}
 .banner-cert p{margin:0 0 10px;color:#e8eefc}
 .badges{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
 .badge{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);padding:6px 10px;border-radius:999px;font-weight:600}
-.cta{display:flex;gap:10px;align-items:center;margin-top:12px}
+.cta{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
 .price{background:var(--gold);color:#111;font-weight:900;padding:10px 12px;border-radius:10px}
-.btn{background:var(--ok);border:none;color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer}
 .ribbon-bar{position:relative;z-index:2;display:flex;gap:8px;flex-wrap:wrap;padding:0 22px 10px}
 .ribbon{background:var(--gold);color:#111;font-weight:800;padding:6px 10px;border-radius:8px}
 .stamp{position:relative;z-index:2;margin:0 22px 18px;background:rgba(255,255,255,.14);border:2px dashed rgba(255,255,255,.5);padding:8px 12px;border-radius:10px;font-weight:700}
 
-/* espaço à direita (para manter igual ao print; você pode preencher depois) */
+/* espaço à direita */
 .banner-space{border:2px dashed #e5e7eb;border-radius:18px;min-height:320px;background:#fff;display:grid;place-items:center;color:#64748b}
 
 /* ===== CARDS ===== */
 .section{max-width:1200px;margin:28px auto;padding:0 20px}
 .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
-.card{grid-column:span 12;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:18px}
+.card{grid-column:span 12;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:18px;transition:transform .18s, box-shadow .25s, border-color .25s}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(2,6,23,.12)}
 @media(min-width:900px){.span-4{grid-column:span 4}}
 .card h3{margin:4px 0 8px}
 .card p{color:var(--muted)}
-.btn-link{display:inline-block;margin-top:8px;padding:10px 14px;background:var(--accent);color:#fff;border-radius:10px}
+.btn-link{display:inline-flex;align-items:center;gap:8px;margin-top:8px;padding:10px 14px;background:var(--accent);color:#fff;border-radius:12px}
+.btn-link::after{content:"→";transition:transform .18s}
+.btn-link:hover::after{transform:translateX(4px)}
 
 /* ===== MODAIS / TOAST / WHATS ===== */
 .modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.45);backdrop-filter:blur(2px);z-index:80}
 .modal.open{display:grid}
-.modal .box{width:min(520px,94vw);background:#fff;border-radius:14px;padding:20px;border:1px solid var(--line);box-shadow:var(--shadow)}
+.modal .box{width:min(560px,94vw);background:#fff;border-radius:16px;padding:20px;border:1px solid var(--line);box-shadow:var(--shadow)}
 .input{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;margin-bottom:10px}
 .row{display:grid;gap:10px;grid-template-columns:1fr}
 @media(min-width:680px){.row{grid-template-columns:1fr 1fr}}
 .actions{display:flex;gap:10px;justify-content:flex-end}
 .toast{position:fixed;bottom:18px;right:18px;background:#111;color:#fff;padding:12px 14px;border-radius:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);transition:.25s;z-index:90}
 .toast.show{opacity:1;transform:translateY(0)}
-.whats{position:fixed;right:18px;bottom:90px;background:#25d366;color:#fff;border:none;border-radius:999px;padding:14px 16px;font-weight:800;box-shadow:var(--shadow);cursor:pointer;z-index:85}
+.whats{position:fixed;right:18px;bottom:98px;background:#25d366;color:#fff;border:none;border-radius:999px;padding:14px 16px;font-weight:800;box-shadow:var(--shadow);z-index:85}
 
-/* FOOTER */
+/* ===== FLOATING ACTION BAR ===== */
+.fab{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;display:flex;gap:10px;z-index:70}
+.fab .mini{border:none;border-radius:999px;padding:12px 14px;box-shadow:var(--shadow)}
+.fab .mini.primary{background:var(--accent);color:#fff}
+.fab .mini.light{background:#fff;border:1px solid var(--line);color:#111}
+
+/* ===== FOOTER ===== */
 .footer{margin:40px 0 0;background:#0e223f;color:#e6eefb}
 .footer .inner{max-width:1100px;margin:0 auto;padding:24px 20px}
+
+/* ===== ACESSIBILIDADE ===== */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important }
+}
 </style>
 </head>
 <body>
 
 <header class="header">
   <div class="bar">
-    <a class="logo" href="index.html"><img src="https://github.com/ClenaStore/santsert/blob/main/paste/Imagem%20do%20WhatsApp%20de%202025-08-20%20%C3%A0(s)%2016.21.40_26238e6c.jpg?raw=true" alt="Logo"></a>
-    <nav class="nav">
-      <a class="active" href="index.html">Home</a>
-      <a href="empresa.html">Empresa</a>
-      <a href="servicos.html">Serviços</a>
-      <a href="#certificados">Certificados</a>
-      <a href="informacoes.html">Informações</a>
-      <a href="contatos.html">Contato</a>
+    <a class="logo" href="#top"><img src="https://github.com/ClenaStore/santsert/blob/main/paste/Imagem%20do%20WhatsApp%20de%202025-08-20%20%C3%A0(s)%2016.21.40_26238e6c.jpg?raw=true" alt="Logo"></a>
+    <nav class="nav" id="main-nav">
+      <a class="active ripple" href="#hero">Home</a>
+      <a class="ripple" href="#empresa">Empresa</a>
+      <a class="ripple" href="#servicos">Serviços</a>
+      <a class="ripple" href="#certificados">Certificados</a>
+      <a class="ripple" href="#informacoes">Informações</a>
+      <a class="ripple" href="#contatos">Contato</a>
     </nav>
-    <button class="login-btn" onclick="Login.open()">Área do Cliente</button>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="login-btn ripple" onclick="Login.open()">Área do Cliente</button>
+      <button class="btn outline ripple" onclick="scrollToId('contatos')">Fale Conosco</button>
+    </div>
   </div>
 </header>
 
@@ -114,19 +157,32 @@ img{max-width:100%;display:block}
   <div class="caption">
     <h1>Assessoria contábil completa</h1>
     <p>Abertura/encerramento de empresas • Fiscal • Trabalhista • Consultoria</p>
-    <div style="margin-top:14px;display:flex;gap:10px;justify-content:center">
-      <a href="servicos.html" class="btn" style="background:#0ea5e9">Conhecer serviços</a>
-      <a href="#certificados" class="btn">Emitir certificado</a>
+    <div class="hero-ctas">
+      <a href="#servicos" class="btn secondary ripple">Conhecer serviços</a>
+      <a href="#certificados" class="btn ripple">Emitir certificado</a>
+      <button class="btn outline ripple" onclick="openQuote()">Pedir orçamento</button>
+      <button class="btn outline ripple" onclick="window.open('https://wa.me/5599999999999','_blank')">WhatsApp</button>
     </div>
   </div>
-  <button class="ctrl prev" onclick="Hero.prev()">❮</button>
-  <button class="ctrl next" onclick="Hero.next()">❯</button>
+  <button class="ctrl prev ripple" onclick="Hero.prev()">❮</button>
+  <button class="ctrl next ripple" onclick="Hero.next()">❯</button>
   <div class="dots" id="hero-dots"></div>
 </section>
 
-<!-- ===== LINHA DOS BANNERS (como no print) ===== -->
+<!-- ===== BARRA DE CATEGORIAS ===== -->
+<section class="categorias" aria-label="Categorias de serviços">
+  <div class="cat-wrap" id="cat-wrap">
+    <button class="cat-btn ripple active" data-cat="all">Todos</button>
+    <button class="cat-btn ripple" data-cat="gerencial">Gerencial</button>
+    <button class="cat-btn ripple" data-cat="fiscal">Fiscal</button>
+    <button class="cat-btn ripple" data-cat="dp">Depto Pessoal</button>
+    <button class="cat-btn ripple" data-cat="societario">Societário</button>
+    <button class="cat-btn ripple" data-cat="consultoria">Consultoria</button>
+  </div>
+</section>
+
+<!-- ===== LINHA DOS BANNERS ===== -->
 <section class="banner-row">
-  <!-- Banner vertical à ESQUERDA -->
   <aside class="banner-cert" id="certificados" aria-label="Certificado Digital">
     <div class="ribbon-bar"><span class="ribbon">PROMO</span><span class="ribbon">12x sem juros*</span></div>
     <div class="inner">
@@ -140,39 +196,65 @@ img{max-width:100%;display:block}
       </div>
       <div class="cta">
         <span class="price">a partir de R$ 149</span>
-        <button class="btn" onclick="CertModal.open()">Emitir agora</button>
-        <button class="btn" style="background:#0ea5e9" onclick="window.open('https://wa.me/5599999999999','_blank')">Tirar dúvidas</button>
+        <button class="btn ripple" onclick="CertModal.open()">Emitir agora</button>
+        <button class="btn secondary ripple" onclick="window.open('https://wa.me/5599999999999','_blank')">Tirar dúvidas</button>
+        <button class="btn outline ripple" onclick="openQuote('certificado digital')">Solicitar orçamento</button>
       </div>
     </div>
     <div class="stamp">Atendimento online e presencial</div>
   </aside>
-
-  <!-- Espaço/branco à DIREITA (igual ao print; pode virar cards/anúncio depois) -->
   <div class="banner-space">
-    <small>Área livre para outro banner, vídeo ou cards</small>
+    <div style="text-align:center">
+      <small>Área livre para outro banner, vídeo ou cards</small>
+      <div style="margin-top:10px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap">
+        <button class="btn outline ripple" onclick="scrollToId('servicos')">Ver serviços</button>
+        <button class="btn outline ripple" onclick="scrollToId('informacoes')">Informações</button>
+        <button class="btn outline ripple" onclick="scrollToId('contatos')">Contato</button>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ===== CARDS ===== -->
-<section class="section">
-  <div class="grid">
-    <article class="card span-4">
+<section class="section" id="servicos">
+  <div class="grid" id="cards">
+    <article class="card span-4" data-cat="gerencial">
       <h3>Contabilidade Gerencial</h3>
       <p>Indicadores, DRE e dashboards para decisões.</p>
-      <a class="btn-link" href="servicos.html#gerencial">Saiba mais</a>
+      <a class="btn-link ripple" href="#informacoes">Saiba mais</a>
     </article>
-    <article class="card span-4">
+    <article class="card span-4" data-cat="fiscal">
       <h3>Planejamento Tributário</h3>
       <p>Regime ideal, reenquadramento e revisão fiscal.</p>
-      <a class="btn-link" href="servicos.html#fiscal">Ver detalhes</a>
+      <a class="btn-link ripple" href="#informacoes">Ver detalhes</a>
     </article>
-    <article class="card span-4">
+    <article class="card span-4" data-cat="dp">
       <h3>Departamento Pessoal</h3>
       <p>Folha, admissões, rescisões e eSocial.</p>
-      <a class="btn-link" href="servicos.html#dp">Conhecer</a>
+      <a class="btn-link ripple" href="#informacoes">Conhecer</a>
+    </article>
+    <article class="card span-4" data-cat="societario">
+      <h3>Societário</h3>
+      <p>Abertura, alteração e encerramento de empresas.</p>
+      <a class="btn-link ripple" href="#informacoes">Solicitar</a>
+    </article>
+    <article class="card span-4" data-cat="consultoria">
+      <h3>Consultoria</h3>
+      <p>Estratégia, custos e organização financeira.</p>
+      <a class="btn-link ripple" href="#informacoes">Agendar</a>
+    </article>
+    <article class="card span-4" data-cat="gerencial">
+      <h3>Controle de Caixa</h3>
+      <p>Relatórios e conciliações diárias.</p>
+      <a class="btn-link ripple" href="#informacoes">Ver plano</a>
     </article>
   </div>
 </section>
+
+<!-- ===== SEÇÕES PLACEHOLDER PARA LINKS DO MENU ===== -->
+<section class="section" id="empresa"><h2>Empresa</h2><p class="muted">Conteúdo institucional…</p></section>
+<section class="section" id="informacoes"><h2>Informações</h2><p class="muted">Tire suas dúvidas sobre documentos, prazos e fluxos.</p></section>
+<section class="section" id="contatos"><h2>Contato</h2><p class="muted">Estamos prontos para ajudar.</p></section>
 
 <footer class="footer"><div class="inner"><small>© <span id="year"></span> SIM Contabilidade</small></div></footer>
 
@@ -184,8 +266,8 @@ img{max-width:100%;display:block}
       <input class="input" id="login" placeholder="Login" required>
       <input class="input" id="senha" type="password" placeholder="Senha" required>
       <div class="actions">
-        <button type="button" class="btn" style="background:#fff;border:1px solid var(--line);color:#111" onclick="Login.close()">Cancelar</button>
-        <button class="btn" type="submit">Entrar</button>
+        <button type="button" class="btn outline ripple" onclick="Login.close()">Cancelar</button>
+        <button class="btn ripple" type="submit">Entrar</button>
       </div>
     </form>
   </div>
@@ -243,15 +325,43 @@ img{max-width:100%;display:block}
       <label for="anexo">Documento (RG/Contrato Social) — opcional</label>
       <input id="anexo" class="input" type="file" accept=".pdf,.jpg,.jpeg,.png">
       <div class="actions">
-        <button type="button" class="btn" style="background:#fff;border:1px solid var(--line);color:#111" onclick="CertModal.close()">Cancelar</button>
-        <button class="btn" type="submit">Solicitar Emissão</button>
+        <button type="button" class="btn outline ripple" onclick="CertModal.close()">Cancelar</button>
+        <button class="btn ripple" type="submit">Solicitar Emissão</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="orcamento-modal" class="modal" aria-hidden="true">
+  <div class="box" role="dialog" aria-modal="true" aria-label="Orçamento">
+    <h2>Solicitar Orçamento</h2>
+    <form id="orcamento-form" onsubmit="Orcamento.submit(event)">
+      <div class="row">
+        <input class="input" id="orc-nome" placeholder="Nome" required>
+        <input class="input" id="orc-email" type="email" placeholder="E-mail" required>
+      </div>
+      <div class="row">
+        <input class="input" id="orc-fone" placeholder="Telefone/WhatsApp" required>
+        <input class="input" id="orc-servico" placeholder="Serviço de interesse" required>
+      </div>
+      <textarea class="input" id="orc-msg" rows="4" placeholder="Descreva sua necessidade"></textarea>
+      <div class="actions">
+        <button type="button" class="btn outline ripple" onclick="Orcamento.close()">Cancelar</button>
+        <button class="btn ripple" type="submit">Enviar</button>
       </div>
     </form>
   </div>
 </div>
 
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
-<button class="whats" onclick="window.open('https://wa.me/5599999999999','_blank')">WhatsApp</button>
+<button class="whats ripple" onclick="window.open('https://wa.me/5599999999999','_blank')">WhatsApp</button>
+
+<!-- ===== FLOATING ACTION BAR ===== -->
+<div class="fab" aria-label="Atalhos rápidos">
+  <button class="mini primary ripple" onclick="openQuote()">Orçamento</button>
+  <button class="mini light ripple" onclick="scrollToId('servicos')">Serviços</button>
+  <button class="mini light ripple" onclick="CertModal.open()">Certificado</button>
+</div>
 
 <script>
 /* ===== Helpers ===== */
@@ -261,6 +371,23 @@ function toast(msg, ok=true){
   el.style.background= ok ? '#111' : '#b91c1c';
   el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),3200);
 }
+function scrollToId(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth'}) }
+
+/* ===== Ripple click (coordenadas) ===== */
+(function(){
+  document.addEventListener('click', e=>{
+    const t=e.target.closest('.ripple'); if(!t) return;
+    const r=t.getBoundingClientRect();
+    const dot=t.querySelector(':scope > ._ink') || Object.assign(document.createElement('span'),{className:'_ink'});
+    dot.style.cssText=`position:absolute;inset:auto;left:${e.clientX-r.left}px;top:${e.clientY-r.top}px;width:12px;height:12px;border-radius:999px;background:rgba(255,255,255,.45);transform:translate(-50%,-50%) scale(1);opacity:1;mix-blend:overlay;pointer-events:none;`;
+    t.appendChild(dot);
+    requestAnimationFrame(()=>{
+      dot.style.transition='transform .55s ease, opacity .6s';
+      dot.style.transform='translate(-50%,-50%) scale(22)'; dot.style.opacity='0';
+      setTimeout(()=>dot.remove(),600);
+    });
+  }, {passive:true});
+})();
 
 /* ===== Modais ===== */
 const Login={
@@ -278,6 +405,12 @@ const CertModal={
     toast('Solicitação enviada! 👌'); CertModal.close(); document.getElementById('cert-form').reset();
   }
 };
+const Orcamento={
+  open(){document.getElementById('orcamento-modal').classList.add('open')},
+  close(){document.getElementById('orcamento-modal').classList.remove('open')},
+  submit(e){ e.preventDefault(); toast('Orçamento enviado! ✅'); Orcamento.close(); document.getElementById('orcamento-form').reset(); }
+};
+function openQuote(pref){ if(pref) document.getElementById('orc-servico').value=pref; Orcamento.open(); }
 
 /* ===== Slider do HERO ===== */
 const Hero=(()=>{
@@ -308,6 +441,38 @@ const Hero=(()=>{
   buildDots(); go(0); autoplay();
 
   return {next,prev};
+})();
+
+/* ===== CATEGORIAS: filtro + efeitos de clique ===== */
+(function(){
+  const wrap=document.getElementById('cat-wrap');
+  const cards=[...document.querySelectorAll('#cards .card')];
+  wrap.addEventListener('click', (e)=>{
+    const btn=e.target.closest('.cat-btn'); if(!btn) return;
+    [...wrap.children].forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat=btn.dataset.cat;
+    cards.forEach(c=>{
+      const match = (cat==='all') || c.dataset.cat===cat;
+      c.style.transition='opacity .2s, transform .25s';
+      c.style.opacity= match? '1':'0.0';
+      c.style.transform= match? 'translateY(0)':'translateY(8px) scale(.98)';
+      c.style.pointerEvents= match? 'auto':'none';
+      c.hidden = !match && window.innerWidth < 900; // melhora leitura em mobile
+    });
+  });
+})();
+
+/* ===== MENU ATIVO ao rolar ===== */
+(function(){
+  const links=[...document.querySelectorAll('#main-nav a')];
+  const map=links.map(a=>({a, el: document.querySelector(a.getAttribute('href'))}));
+  function onScroll(){
+    const y=window.scrollY+90; let cur=links[0];
+    for(const {a, el} of map){ if(el && el.offsetTop<=y) cur=a; }
+    links.forEach(l=>l.classList.toggle('active',l===cur));
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
 })();
 
 /* ===== Init ===== */
